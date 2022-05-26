@@ -18,7 +18,7 @@ const ap = new APlayer({
 	 {
         name: '像鱼',
         artist: '----宋立伟',
-        url: 'https://www.ytmp3.cn/down/73793.mp3',
+        url: ' http://music.163.com/song/media/outer/url?id=1365952644.mp3',
         cover: 'http://p2.music.126.net/Wx5GNJEpay2JbfVUJc4Aew==/109951163094853876.jpg?param=130y130',
       }
       
