@@ -11,8 +11,8 @@
   
   <title>
     
-      Burp使用日记(一) 
-      
+      Tag 
+       : Shiro漏洞
       
       |
     
@@ -115,166 +115,30 @@
 
 
       <div class="flex-container">
-        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
-<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+        <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
 
-<!-- LaTex Display -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script>
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
-  }
-};
-</script>
-
-
-
+<div class="container tag-details">
+  <div class="content-title">
+    <h2>
+      <span>Shiro漏洞</span>
+    </h2>
+  </div>
   
-
-  
-
-  
-
-  
-  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
-    <div class="post-content">
-      <div class="post-title">Burp使用日记(一)</div>
-      <div class="post-attach">
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime" title="Update time"></i>
-          2022-05-27 05:17:39
-        </span>
-        
-              <span class="post-categories">
-                <i class="iconfont icon-bookmark" title="Categories"></i>
-                
-                <span class="span--category">
-                  <a href="/categories/Burp%E4%BD%BF%E7%94%A8%E6%97%A5%E8%AE%B0/" title="Burp使用日记">
-                    <b>#</b> Burp使用日记
-                  </a>
-                </span>
-                
-              </span>
-          
-              <span class="post-tags">
-                <i class="iconfont icon-tags" title="Tags"></i>
-                
-                <span class="span--tag">
-                  <a href="/tags/BurpSuite/" title="BurpSuite">
-                    <b>#</b> BurpSuite
-                  </a>
-                </span>
-                
-              </span>
-          
+    <div class="post-list">
+      <div class="post-item" title="Shiro漏洞复习">
+        <span class="time-m-d">2022-05-27</span>
+        <a href="/2022/05/27/test/">
+          <span>Shiro漏洞复习</span>
+        </a>
       </div>
-      <div class="markdown-body">
-        <h2 id="Burp安装"><a href="#Burp安装" class="headerlink" title="Burp安装"></a>Burp安装</h2><blockquote>
-<p>简介:<br>Burp Suite 是用于攻击web 应用程序的集成平台，包含了许多工具。BurpSuite为这些工具设计了许多接口，以加快攻击应用程序的过程。</p>
-</blockquote>
-<h3 id="下载Jdk文件"><a href="#下载Jdk文件" class="headerlink" title="下载Jdk文件"></a>下载Jdk文件</h3><p>BurpSuite是一款基于Java开发的工具,所以我们电脑自身也要有Java环境,下载java开发工具包JDK</p>
-<ol>
-<li>只有低版本的Burp需要配置Java,推荐使用1.8版本</li>
-<li>高版本自带了Java环境<br>留下Jdk下载地址，毕竟以后有些工具会用到Java环境<br><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/downloads/#java8-windows">点击这里-下载官方1.8J版本dk</a><br><img src="/../images/2022/05/27/fd50b200-dda1-11ec-be54-418db5c1d910.png" alt="image.png"><br>如果你觉得特别费劲,直接跳到Java安装,我配置好了所有的环境,就是有点大。<h3 id="配置Java环境"><a href="#配置Java环境" class="headerlink" title="配置Java环境"></a>配置Java环境</h3></li>
-<li>找到你的此电脑,右键属性</li>
-<li>往下翻找到相关设置,点击里面的高级系统设置</li>
-<li>在高级选项栏,点击环境变量</li>
-<li>在系统环境变量中点击新增</li>
-<li>变量名中输入JAVA_HOME,变量值中输入你Jdk安装目录</li>
-<li>再次新建系统环境变量<br>变量名：<strong>Classpath</strong><br>变量值： <strong>.;%JAVA_HOME%\lib;</strong><br>注意此变量值以<strong>英文句点符号开始，以分号结束</strong></li>
-<li>系统变量里面找到Path变量,点击编辑,添加如下字符串 ;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin</li>
-<li>最后打开cmd,输入java -version<br><img src="/../images/2022/05/27/2c165980-dda4-11ec-be54-418db5c1d910.png" alt="image.png"><br>这样输出版本代表Java安装配置成功<h3 id="BurpSuite下载安装"><a href="#BurpSuite下载安装" class="headerlink" title="BurpSuite下载安装"></a>BurpSuite下载安装</h3>我已经上传好压缩包,直接点击BurpSuite.exe就能启动<br><img src="/../images/2022/05/27/e208b0a0-dda7-11ec-be54-418db5c1d910.png" alt="image.png"><br><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/afKuXRzDQBX">Burp一键配置</a></li>
-</ol>
-
-      </div>
-      
-        <div class="prev-or-next">
-          <div class="post-foot-next">
-            
-              <a href="/2022/05/27/%E6%B7%B1%E4%BF%A1%E6%9C%8D%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E8%AF%A6%E8%A7%A3/" target="_self">
-                <i class="iconfont icon-chevronleft"></i>
-                <span>Prev</span>
-              </a>
-            
-          </div>
-          <div class="post-attach">
-            <span class="post-pubtime">
-              <i class="iconfont icon-updatetime" title="Update time"></i>
-              2022-05-27 05:17:39
-            </span>
-            
-                  <span class="post-categories">
-                    <i class="iconfont icon-bookmark" title="Categories"></i>
-                    
-                    <span class="span--category">
-                      <a href="/categories/Burp%E4%BD%BF%E7%94%A8%E6%97%A5%E8%AE%B0/" title="Burp使用日记">
-                        <b>#</b> Burp使用日记
-                      </a>
-                    </span>
-                    
-                  </span>
-              
-                  <span class="post-tags">
-                    <i class="iconfont icon-tags" title="Tags"></i>
-                    
-                    <span class="span--tag">
-                      <a href="/tags/BurpSuite/" title="BurpSuite">
-                        <b>#</b> BurpSuite
-                      </a>
-                    </span>
-                    
-                  </span>
-              
-          </div>
-          <div class="post-foot-prev">
-            
-              <a href="/2022/05/27/test/" target="_self">
-                <span>Next</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
-            
-          </div>
-        </div>
-      
     </div>
-    
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
-  <div class="post-catalog hidden" id="catalog">
-    <div class="title">Contents</div>
-    <div class="catalog-content">
-      
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Burp%E5%AE%89%E8%A3%85"><span class="toc-text">Burp安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDJdk%E6%96%87%E4%BB%B6"><span class="toc-text">下载Jdk文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83"><span class="toc-text">配置Java环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BurpSuite%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="toc-text">BurpSuite下载安装</span></a></li></ol></li></ol>
-      
-    </div>
-  </div>
-
   
-<script src="/js/catalog.js"></script>
-
-
-
-
+  <nav class="post-navigation">
     
-      <div class="comments-container">
-        
-
-
-
-
-
-
-
-      </div>
+    <span class="page-num">1 / 1</span>
     
-  </div>
-
+  </nav>
+</div>
 
         
 <div class="footer">
@@ -528,24 +392,6 @@ MathJax = {
 
 
         
-  
-    <div class="share-icon tools-bar-item">
-      <a href="javascript: void(0)" id="share-icon">
-        <i class="iconfont iconshare"></i>
-      </a>
-      <div class="share-content hidden">
-        
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Burp%E4%BD%BF%E7%94%A8%E6%97%A5%E8%AE%B0(%E4%B8%80) + '&url=' + http%3A%2F%2Fexample.com%2F2022%2F05%2F27%2FBurp%25E4%25BD%25BF%25E7%2594%25A8%25E6%2597%25A5%25E8%25AE%25B0%2F + '" target="_blank" title="Twitter">
-            <i class="iconfont icon-twitter"></i>
-          </a>
-        
-        
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://example.com/2022/05/27/Burp%E4%BD%BF%E7%94%A8%E6%97%A5%E8%AE%B0/" target="_blank" title="Facebook">
-            <i class="iconfont icon-facebooksquare"></i>
-          </a>
-        
-      </div>
-    </div>
   
   
 <script src="/js/shares.js"></script>

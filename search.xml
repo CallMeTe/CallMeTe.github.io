@@ -29,6 +29,31 @@
     
     
     <entry>
+      <title>Shiro漏洞复习</title>
+      <link href="/2022/05/27/test/"/>
+      <url>/2022/05/27/test/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="Shiro漏洞详解"><a href="#Shiro漏洞详解" class="headerlink" title="Shiro漏洞详解"></a>Shiro漏洞详解</h2><h3 id="Shiro简介"><a href="#Shiro简介" class="headerlink" title="Shiro简介"></a>Shiro简介</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Apache Shiro是常见的Java安全框架.</span><br><span class="line">执行身份验证、授权、密码和会话管理.</span><br><span class="line">只要rememberMe的AES加密秘钥泄露.</span><br><span class="line">就会导致shiro的反序列化漏洞.</span><br></pre></td></tr></table></figure><h4 id="Shiro漏洞"><a href="#Shiro漏洞" class="headerlink" title="Shiro漏洞"></a>Shiro漏洞</h4><ul><li>Shiro550</li><li>Shiro721</li><li>Shiro权限绕过</li><li>Shiro认证绕过….<h5 id="Shiro550"><a href="#Shiro550" class="headerlink" title="Shiro550"></a>Shiro550</h5></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Shiro漏洞 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Shiro漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Burp使用日记(一)</title>
       <link href="/2022/05/27/Burp%E4%BD%BF%E7%94%A8%E6%97%A5%E8%AE%B0/"/>
       <url>/2022/05/27/Burp%E4%BD%BF%E7%94%A8%E6%97%A5%E8%AE%B0/</url>
@@ -71,31 +96,6 @@
         <tags>
             
             <tag> 面试题 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>test</title>
-      <link href="/2022/05/27/test/"/>
-      <url>/2022/05/27/test/</url>
-      
-        <content type="html"><![CDATA[<p>whoami </p><p>let’s go to sussess</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> web前端 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Test测试 </tag>
             
         </tags>
       
