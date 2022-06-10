@@ -54,6 +54,31 @@
     
     
     <entry>
+      <title>深信服安全研究面试题详解</title>
+      <link href="/2022/05/27/%E6%B7%B1%E4%BF%A1%E6%9C%8D%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E8%AF%A6%E8%A7%A3/"/>
+      <url>/2022/05/27/%E6%B7%B1%E4%BF%A1%E6%9C%8D%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E8%AF%A6%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>::: hljs-center</p><h2 id="深信服安全研究面试题"><a href="#深信服安全研究面试题" class="headerlink" title="深信服安全研究面试题"></a>深信服安全研究面试题</h2><p>:::</p><h3 id="框架漏洞"><a href="#框架漏洞" class="headerlink" title="框架漏洞"></a>框架漏洞</h3><ul><li>Shiro</li><li>Fastjson</li><li>struts2</li><li>Weblogic</li><li>Log4j2<h5 id="Shiro框架"><a href="#Shiro框架" class="headerlink" title="Shiro框架"></a>Shiro框架</h5></li></ul><ol><li><p>什么是shiro</p></li><li><p>shiro550</p></li><li><p>shiro721</p></li><li><p>shiro权限绕过</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 面试题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 面试题 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>test</title>
       <link href="/2022/05/27/test/"/>
       <url>/2022/05/27/test/</url>
