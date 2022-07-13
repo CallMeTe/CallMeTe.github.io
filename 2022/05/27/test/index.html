@@ -174,13 +174,75 @@ MathJax = {
           
       </div>
       <div class="markdown-body">
-        <h2 id="Shiro漏洞详解"><a href="#Shiro漏洞详解" class="headerlink" title="Shiro漏洞详解"></a>Shiro漏洞详解</h2><h3 id="Shiro简介"><a href="#Shiro简介" class="headerlink" title="Shiro简介"></a>Shiro简介</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Apache Shiro是常见的Java安全框架.</span><br><span class="line">执行身份验证、授权、密码和会话管理.</span><br><span class="line">只要rememberMe的AES加密秘钥泄露.</span><br><span class="line">就会导致shiro的反序列化漏洞.</span><br></pre></td></tr></table></figure>
+        <h2 id="Shiro漏洞详解（shiro加密分析）"><a href="#Shiro漏洞详解（shiro加密分析）" class="headerlink" title="Shiro漏洞详解（shiro加密分析）"></a>Shiro漏洞详解（shiro加密分析）</h2><h3 id="Shiro简介"><a href="#Shiro简介" class="headerlink" title="Shiro简介"></a>Shiro简介</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Apache Shiro是常见的Java安全框架.</span><br><span class="line">执行身份验证、授权、密码和会话管理.</span><br></pre></td></tr></table></figure>
 <h4 id="Shiro漏洞"><a href="#Shiro漏洞" class="headerlink" title="Shiro漏洞"></a>Shiro漏洞</h4><ul>
 <li>Shiro550</li>
 <li>Shiro721</li>
 <li>Shiro权限绕过</li>
-<li>Shiro认证绕过….<h5 id="Shiro550"><a href="#Shiro550" class="headerlink" title="Shiro550"></a>Shiro550</h5></li>
+<li>Shiro认证绕过….<h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><h6 id="AES加密解密"><a href="#AES加密解密" class="headerlink" title="AES加密解密"></a>AES加密解密</h6><blockquote>
+<p>AES算法来自于密码学,主要有四种操作处理<br>密钥加法层(Add Round Key)<br>字节代换层(SubByte)<br>行位移层(Shift Rows)<br>列混淆层(Mix Column)<br>具体操作可以看底下的流程图<br>(Ps：如果看不懂就可以理解为把你的明文用特定的密钥加密,这种加密如果有密钥就可以反解密出来)<br><img src="/../images/2022/07/13/3c047d30-0280-11ed-8098-c3db6493b271.png" alt="image.png"></p>
+</blockquote>
+<h5 id="Shiro反序列化漏洞"><a href="#Shiro反序列化漏洞" class="headerlink" title="Shiro反序列化漏洞"></a>Shiro反序列化漏洞</h5><h6 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因:"></a>漏洞成因:</h6></li>
 </ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Apache Shiro框架提供了记住密码的功(RememberMe)</span><br><span class="line">用户登录成功后会生成经过加密并编码的Cookie</span><br><span class="line">在服务端对rememberMe的Cookie值</span><br><span class="line">先base64解码然后AES解密在反序列化</span><br><span class="line">导致了反序列化RCE漏洞。</span><br></pre></td></tr></table></figure>
+<h6 id="Cookie的生成过程以及解密过程"><a href="#Cookie的生成过程以及解密过程" class="headerlink" title="Cookie的生成过程以及解密过程"></a>Cookie的生成过程以及解密过程</h6><p><img src="/../images/2022/07/13/18401b30-027f-11ed-8098-c3db6493b271.png" alt="image.png"></p>
+<h6 id="漏洞特征"><a href="#漏洞特征" class="headerlink" title="漏洞特征"></a>漏洞特征</h6><p>Shiro反序列化的特征：在返回包的<strong>Set-Cookie</strong>中存在<strong>rememberMe&#x3D;deleteMe</strong>字段</p>
+<h6 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析:"></a>漏洞分析:</h6><blockquote>
+<p>我们知道漏洞发生在登录过程中,所以我们在他的在org&#x2F;apache&#x2F;shiro&#x2F;mgt&#x2F;DefaultSecurityManager.java中的<br>&#x3D;&#x3D;rememberMeSuccessfulLogin&#x3D;&#x3D;方法下断点。</p>
+</blockquote>
+<p><img src="/../images/2022/07/13/da3b4880-029e-11ed-8098-c3db6493b271.png" alt="IOB2OVAY~IJD8AFD75RXHAV.png"></p>
+<blockquote>
+<p>动态调试运行,发现走到了&#x3D;&#x3D;onSuccessfulLogin&#x3D;&#x3D;方法</p>
+<blockquote>
+<p>跟进&#x3D;&#x3D;onSuccessfulLogin&#x3D;&#x3D;方法</p>
+</blockquote>
+</blockquote>
+<p><img src="/../images/2022/07/13/6a7ad090-02a0-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"></p>
+<blockquote>
+<p>调用&#x3D;&#x3D;forgetIdentity&#x3D;&#x3D;方法对subject进行处理</p>
+<blockquote>
+<p>跟进&#x3D;&#x3D;forgetIdentity&#x3D;&#x3D;方法</p>
+</blockquote>
+</blockquote>
+<p><img src="/../images/2022/07/13/e8cc3280-02a1-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"></p>
+<blockquote>
+<p>看到先是获取request和response然后继续调用&#x3D;&#x3D;forgetIdentity&#x3D;&#x3D;,接着跟进</p>
+</blockquote>
+<p><img src="/../images/2022/07/13/263728a0-02a2-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"></p>
+<blockquote>
+<p>getCookie就是得到cookies,跟进removeFrom方法看一下,其实就是在respons头部设置Set-Cookie:rememberMe&#x3D;deleteMe</p>
+</blockquote>
+<p><img src="/../images/2022/07/13/a60de780-02a2-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"></p>
+<blockquote>
+<p>返回&#x3D;&#x3D;onSuccessfulLogin&#x3D;&#x3D;方法,走到下面的代码,如果设置了remeberme就进入if判断,发现调用了&#x3D;&#x3D;rememberIdentity&#x3D;&#x3D;方法,跟进….</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (isRememberMe(token)) &#123;</span><br><span class="line">    rememberIdentity(subject, token, info);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/../images/2022/07/13/4e195040-02a3-11ed-8098-c3db6493b271.png" alt="image.png"></p>
+<blockquote>
+<p>发现最后调用了&#x3D;&#x3D;rememberIdentity&#x3D;&#x3D;方法接着跟进&#x3D;&#x3D;rememberIdentity&#x3D;&#x3D;</p>
+</blockquote>
+<p><img src="/../images/2022/07/13/722b0460-02a3-11ed-8098-c3db6493b271.png" alt="image.png"></p>
+<blockquote>
+<p>跟进convertPrincipalsToBytes函数</p>
+</blockquote>
+<p><img src="/../images/2022/07/13/a2f9ad30-02a3-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"></p>
+<blockquote>
+<p>可以看到byte &#x3D; encrypt(bytes)进行了加密,发现了是AES-CBC加密方式,接着跟进&#x3D;&#x3D;encrypt&#x3D;&#x3D;方法</p>
+</blockquote>
+<p><img src="/../images/2022/07/13/58d109a0-02a4-11ed-8098-c3db6493b271.png" alt="image.png"><br><img src="/../images/2022/07/13/2948ea90-02a4-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"></p>
+<blockquote>
+<p>知道了加密类为CipherService,我们接着看这段代码,发现参数中传了一个方法,跟进&#x3D;&#x3D;getEncryptionCipherKey&#x3D;&#x3D;方法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ByteSource byteSource = cipherService.encrypt(serialized, getEncryptionCipherKey());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/../images/2022/07/13/e54d1680-02a4-11ed-8098-c3db6493b271.png" alt="image.png"></p>
+<blockquote>
+<p>就这样我们找到了加密的密钥,加密完成之后返回&#x3D;&#x3D;rememberIdentity&#x3D;&#x3D;进入&#x3D;&#x3D;rememberSerializedIdentity&#x3D;&#x3D;<br><img src="/../images/2022/07/13/6f2c5870-02a5-11ed-8098-c3db6493b271.png" alt="QQ图片20220713193900.png"><br>跟进&#x3D;&#x3D;rememberSerializedIdentity&#x3D;&#x3D;方法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">protected void rememberSerializedIdentity(Subject subject, byte[] serialized) &#123;</span><br><span class="line"></span><br><span class="line">    if (!WebUtils.isHttp(subject)) &#123;</span><br><span class="line">        if (log.isDebugEnabled()) &#123;</span><br><span class="line">            String msg = &quot;Subject argument is not an HTTP-aware instance.  This is required to obtain a servlet &quot; +</span><br><span class="line">                    &quot;request and response in order to set the rememberMe cookie. Returning immediately and &quot; +</span><br><span class="line">                    &quot;ignoring rememberMe operation.&quot;;</span><br><span class="line">            log.debug(msg);</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    HttpServletRequest request = WebUtils.getHttpRequest(subject);</span><br><span class="line">    HttpServletResponse response = WebUtils.getHttpResponse(subject);</span><br><span class="line"></span><br><span class="line">    //base 64 encode it and store as a cookie:</span><br><span class="line">    String base64 = Base64.encodeToString(serialized);</span><br><span class="line"></span><br><span class="line">    Cookie template = getCookie(); //the class attribute is really a template for the outgoing cookies</span><br><span class="line">    Cookie cookie = new SimpleCookie(template);</span><br><span class="line">    cookie.setValue(base64);</span><br><span class="line">    cookie.saveTo(request, response);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对加密的bytes进行base64编码，保存在cookie中</p>
+</blockquote>
 
       </div>
       
@@ -241,7 +303,7 @@ MathJax = {
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shiro%E6%BC%8F%E6%B4%9E%E8%AF%A6%E8%A7%A3"><span class="toc-text">Shiro漏洞详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shiro%E7%AE%80%E4%BB%8B"><span class="toc-text">Shiro简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Shiro%E6%BC%8F%E6%B4%9E"><span class="toc-text">Shiro漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Shiro550"><span class="toc-text">Shiro550</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shiro%E6%BC%8F%E6%B4%9E%E8%AF%A6%E8%A7%A3%EF%BC%88shiro%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90%EF%BC%89"><span class="toc-text">Shiro漏洞详解（shiro加密分析）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shiro%E7%AE%80%E4%BB%8B"><span class="toc-text">Shiro简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Shiro%E6%BC%8F%E6%B4%9E"><span class="toc-text">Shiro漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#AES%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86"><span class="toc-text">AES加密解密</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="toc-text">Shiro反序列化漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0"><span class="toc-text">漏洞成因:</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Cookie%E7%9A%84%E7%94%9F%E6%88%90%E8%BF%87%E7%A8%8B%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="toc-text">Cookie的生成过程以及解密过程</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%89%B9%E5%BE%81"><span class="toc-text">漏洞特征</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-text">漏洞分析:</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
       
     </div>
   </div>
