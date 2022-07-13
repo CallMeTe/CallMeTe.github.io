@@ -4,31 +4,6 @@
   
     
     <entry>
-      <title>test_my_site</title>
-      <link href="/2022/05/27/test-my-site/"/>
-      <url>/2022/05/27/test-my-site/</url>
-      
-        <content type="html"><![CDATA[<p>whoami<br>next door</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> web前端 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Test测试 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Shiro漏洞复习</title>
       <link href="/2022/05/27/test/"/>
       <url>/2022/05/27/test/</url>
